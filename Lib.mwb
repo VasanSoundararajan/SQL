@@ -1,0 +1,48 @@
+create schema library;
+use library;
+create table library.books(name varchar(200), authur varchar(200), aid int, published date, publication varchar(200), bid int not null auto_increment, primary key(bid));
+INSERT INTO library.books(name, authur, published, publication) 
+VALUES
+("Jernimo Stilton", "Stilton", STR_TO_DATE('01-01-2023', '%d-%m-%Y'), "Naval Publication"),
+("Wings of Fire", "A P J Abdhul Kalam", str_to_date('02-05-2012', '%d-%m-%Y'), "Malar Publication");
+-- select * from library.books;
+ 
+create table library.author(aid int not null, name varchar(20), bname varchar(20), bid int, supplier varchar(20), primary key(aid), foreign key(bid) references library.books(bid));
+INSERT INTO library.author (aid, name, bname, bid, supplier)
+VALUES 
+(1, "Stilton", "Jernimo Stilton", 1, "Naval Publication"),
+(2, "A P J Abdhul Kalam", "Wings of Fire", 2, "Malar Publication");
+(3, "xxx", "www", 3, "xyz pub")
+-- select * from library.author;
+
+create table library.supplier(supname varchar(20), sid int not null, book varchar(50), price float, primary key(sid));
+insert into library.supplier 
+values
+("Naval Publication", 1, "Jernimo Stilton", 200),
+("Malar Publication", 2, "Wings of fire", 300);
+-- select * from library.supplier;
+
+create schema billing_system;
+create table library.librarian(
+name varchar(20), 
+id int not null,
+bid int, 
+bookout int, 
+bookin int , 
+primary key(id), foreign key(bid) references library.books(bid));
+insert into library.librarian 
+values
+("lib 1" ,1 , 1, 0),
+("lib 1" ,1 , 2, 0);
+-- select * from library.librarian;
+
+create table library.customer(cusname varchar(20), cid int not null, bookbought int, bookreturn int ,panality float, primary key(cid));
+insert into library.customer 
+values
+("Vasan", 1, 2, 0, 200),
+("Guna", 2, 0, 0, 0);
+-- select * from library.customer;
+-- drop database library;
+
+select * from library.books inner join library.authour on library.books.authur = library.author.name;
+select * from library.books full join library.authour on library.books.authur = library.author.name;
